@@ -4,19 +4,46 @@ import {
   Navigate,
   replace,
   useLocation,
+  Outlet,
 } from "react-router-dom";
-import Dashboard from "./Dashboard";
-import Tasks from "./Tasks";
-import Users from "./Users";
-import TaskDetail from "./TaskDetail";
-import Trash from "./pages/Trash";
-import { Toaster } from "sonner";
 
-const Login = () => {
+import { Toaster } from "sonner";
+import Dashboard from "./pages/Dashboard";
+import Tasks from "./pages/Tasks";
+import Users from "./pages/Users";
+import TaskDetail from "./pages/TaskDetail";
+import Trash from "./pages/Trash";
+import Login from "./pages/Login";
+
+function Layout() {
+  const user = "";
+
+  const location = useLocation();
+
+  return user ? (
+    <div className="w-full h-screen flex flex-col md:flex-row">
+      <div className="w-1/5 h-screen bg-white stick top-0 hidden md:block">
+        {/*Sidebar*/}
+      </div>
+      {/* MobileSidebar */}
+      <div className="flex-1 overflow-y-auto">
+        {/* Navbar */}
+
+        <div className="p-4 2xl:px-10">
+          <Outlet />
+        </div>
+      </div>
+    </div>
+  ) : (
+    <Navigate to="/log-in" state={{ from: Location }} replace />
+  );
+}
+
+const App = () => {
   return (
     <main className="w-full min-h-screen bg-[#f2f4f6]">
       <Routes>
-        <Route element={<Layout />}>
+        <Route>
           <Route path="/" element={<Navigate to="/dashboard" />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/tasks" element={<Tasks />} />
@@ -27,7 +54,7 @@ const Login = () => {
           <Route path="/trashed" element={<Trash />} />
           <Route path="/task/:id" element={<TaskDetail />} />
 
-          <Route path="/log-in" element={<Login />} />
+          <Route path="/login" element={<Login />} />
         </Route>
       </Routes>
 
@@ -36,4 +63,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default App;

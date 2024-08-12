@@ -1,7 +1,7 @@
 
 const Trash = () => {
   return (
-    <div>
+    <div className="text-blue-400">
       Trash
     </div>
   )

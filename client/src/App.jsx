@@ -14,9 +14,10 @@ import Users from "./pages/Users";
 import TaskDetail from "./pages/TaskDetail";
 import Trash from "./pages/Trash";
 import Login from "./pages/Login";
+import { useSelector } from "react-redux";
 
 function Layout() {
-  const user = "";
+  const { user } = useSelector((state) => state.auth);
 
   const location = useLocation();
 
@@ -44,7 +45,7 @@ const App = () => {
     <main className="w-full min-h-screen bg-[#f2f4f6]">
       <Routes>
         <Route>
-          <Route path="/" element={<Navigate to="/dashboard" />} />
+          <Route index path="/" element={<Navigate to="/dashboard" />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/tasks" element={<Tasks />} />
           <Route path="/completed/:status" element={<Tasks />} />
@@ -54,7 +55,7 @@ const App = () => {
           <Route path="/trashed" element={<Trash />} />
           <Route path="/task/:id" element={<TaskDetail />} />
 
-          <Route path="/login" element={<Login />} />
+          <Route path="/log-in" element={<Login />} />
         </Route>
       </Routes>
 

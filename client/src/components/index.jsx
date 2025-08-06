@@ -11,6 +11,7 @@ import ChangePassword from "./ChangePassword";
 import Table from "./Table";
 import ConfirmatioDialog, { UserAction } from "./ConfirmationDialog";
 import Tabs from "./Tabs";
+import Textbox from "./Textbox";
 
 
 export {
@@ -26,5 +27,6 @@ export {
   UserInfo,
   Title,
   Table,
-  Tabs
+  Tabs,
+  Textbox
 };

@@ -1,4 +1,4 @@
-import { TASKS_URL } from "../../../utils/contants";
+import { TASKS_URL } from "../../../utils/constants";
 import { apiSlice } from "../apiSlice";
 
 export const postApiSlice = apiSlice.injectEndpoints({

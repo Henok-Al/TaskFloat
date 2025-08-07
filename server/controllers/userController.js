@@ -1,6 +1,7 @@
 import asyncHandler from "express-async-handler"
 import User from "../models/userModel.js";
 import createJWT from "../utils/utils/index.js";
+import Notice from "../models/notis.js";
 
 // POST - Register a new user
 const registerUser = asyncHandler(async (req, res) => {
@@ -101,4 +102,18 @@ const getTeamList = asyncHandler(async (req, res) => {
   res.status(201).json(user);
 });
 
-export { registerUser, loginUser,logoutUser,getTeamList };
+//GET - get user notifications
+const getNotificationsList = asyncHandler(async (req, res) => {
+  const { userId } = req.user;
+
+  const notice = await Notice.find({
+    team: userId,
+    isRead: { $nin: [userId] },
+  })
+    .populate("task", "title")
+    .sort({ _id: -1 });
+
+  res.status(200).json(notice);
+});
+
+export { registerUser, loginUser,logoutUser,getTeamList, getNotificationsList };

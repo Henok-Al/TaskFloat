@@ -1,5 +1,6 @@
 import asyncHandler from "express-async-handler"
 import User from "../models/userModel.js";
+import createJWT from "../utils/utils/index.js";
 
 // POST - Register a new user
 const registerUser = asyncHandler(async (req, res) => {
@@ -25,7 +26,7 @@ const registerUser = asyncHandler(async (req, res) => {
   if (user) {
     isAdmin ? createJWT(res, user._id) : null;
 
-    user.password = undefined;
+    user.password = undefined; // Do not send password in response
 
     res.status(201).json(user);
   } else {
@@ -35,4 +36,38 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 });
 
-export { registerUser };
+//POST request -login user
+const loginUser = asyncHandler(async (req, res) => {
+  const { email, password } = req.body;
+
+  const user = await User.findOne({ email });
+
+  if (!user) {
+    return res
+      .status(401)
+      .json({ status: false, message: "Invalid email or password." });
+  }
+
+  if (!user?.isActive) {
+    return res.status(401).json({
+      status: false,
+      message: "User account has been deactivated, contact the administrator",
+    });
+  }
+
+  const isMatch = await user.matchPassword(password);
+
+  if (user && isMatch) {
+    createJWT(res, user._id);
+
+    user.password = undefined;
+
+    res.status(200).json(user);
+  } else {
+    return res
+      .status(401)
+      .json({ status: false, message: "Invalid email or password" });
+  }
+});
+
+export { registerUser, loginUser };

@@ -1,5 +1,5 @@
 import express from  "express"
-import { loginUser, logoutUser, registerUser,getTeamList, getNotificationsList, markNotificationRead, getUserTaskStatus } from "../controllers/userController.js"
+import { loginUser, logoutUser, registerUser,getTeamList, getNotificationsList, markNotificationRead, getUserTaskStatus, updateUserProfile } from "../controllers/userController.js"
 import { isAdminRoute,protectRoute } from "../middleware/authMiddleware.js"
 
 const router = express.Router()
@@ -14,6 +14,8 @@ router.get("/get-status", protectRoute, isAdminRoute, getUserTaskStatus);
 
 
 router.put("/read-noti", protectRoute, markNotificationRead);
+router.put("/profile", protectRoute, updateUserProfile);
+
 
 
 

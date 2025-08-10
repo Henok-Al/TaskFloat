@@ -289,6 +289,163 @@ const getTasks = asyncHandler(async (req, res) => {
   });
 });
 
+const createSubTask = asyncHandler(async (req, res) => {
+  const { title, tag, date } = req.body;
+  const { id } = req.params;
+
+  try {
+    const newSubTask = {
+      title,
+      date,
+      tag,
+      isCompleted: false,
+    };
+
+    const task = await Task.findById(id);
+
+    task.subTasks.push(newSubTask);
+
+    await task.save();
+
+    res
+      .status(200)
+      .json({ status: true, message: "SubTask added successfully." });
+  } catch (error) {
+    return res.status(400).json({ status: false, message: error.message });
+  }
+});
+
+const updateTask = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const { title, date, team, stage, priority, assets, links, description } =
+    req.body;
+
+  try {
+    const task = await Task.findById(id);
+
+    let newLinks = [];
+
+    if (links) {
+      newLinks = links.split(",");
+    }
+
+    task.title = title;
+    task.date = date;
+    task.priority = priority.toLowerCase();
+    task.assets = assets;
+    task.stage = stage.toLowerCase();
+    task.team = team;
+    task.links = newLinks;
+    task.description = description;
+
+    await task.save();
+
+    res
+      .status(200)
+      .json({ status: true, message: "Task duplicated successfully." });
+  } catch (error) {
+    return res.status(400).json({ status: false, message: error.message });
+  }
+});
+
+const updateTaskStage = asyncHandler(async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { stage } = req.body;
+
+    const task = await Task.findById(id);
+
+    task.stage = stage.toLowerCase();
+
+    await task.save();
+
+    res
+      .status(200)
+      .json({ status: true, message: "Task stage changed successfully." });
+  } catch (error) {
+    return res.status(400).json({ status: false, message: error.message });
+  }
+});
+
+const updateSubTaskStage = asyncHandler(async (req, res) => {
+  try {
+    const { taskId, subTaskId } = req.params;
+    const { status } = req.body;
+
+    await Task.findOneAndUpdate(
+      {
+        _id: taskId,
+        "subTasks._id": subTaskId,
+      },
+      {
+        $set: {
+          "subTasks.$.isCompleted": status,
+        },
+      }
+    );
+
+    res.status(200).json({
+      status: true,
+      message: status
+        ? "Task has been marked completed"
+        : "Task has been marked uncompleted",
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({ status: false, message: error.message });
+  }
+});
+
+const trashTask = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const task = await Task.findById(id);
+
+    task.isTrashed = true;
+
+    await task.save();
+
+    res.status(200).json({
+      status: true,
+      message: `Task trashed successfully.`,
+    });
+  } catch (error) {
+    return res.status(400).json({ status: false, message: error.message });
+  }
+});
+
+const deleteRestoreTask = asyncHandler(async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { actionType } = req.query;
+
+    if (actionType === "delete") {
+      await Task.findByIdAndDelete(id);
+    } else if (actionType === "deleteAll") {
+      await Task.deleteMany({ isTrashed: true });
+    } else if (actionType === "restore") {
+      const resp = await Task.findById(id);
+
+      resp.isTrashed = false;
+
+      resp.save();
+    } else if (actionType === "restoreAll") {
+      await Task.updateMany(
+        { isTrashed: true },
+        { $set: { isTrashed: false } }
+      );
+    }
+
+    res.status(200).json({
+      status: true,
+      message: `Operation performed successfully.`,
+    });
+  } catch (error) {
+    return res.status(400).json({ status: false, message: error.message });
+  }
+});
+
 export {
     createTask,
     duplicateTask,
@@ -296,4 +453,10 @@ export {
     dashboardStatistics,
     getTask,
     getTasks,
+    createSubTask,
+    updateTask,
+    updateTaskStage,
+    updateSubTaskStage,
+    trashTask,
+    deleteRestoreTask,
 }

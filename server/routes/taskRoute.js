@@ -1,6 +1,6 @@
 import express from "express"
 import { isAdminRoute, protectRoute } from "../middleware/authMiddleware.js";
-import { createTask, dashboardStatistics, duplicateTask, postTaskActivity,getTask,getTasks } from "../controllers/taskController.js";
+import { createTask, dashboardStatistics, duplicateTask, postTaskActivity,getTask,getTasks, createSubTask, updateTask, updateTaskStage, updateSubTaskStage, trashTask, deleteRestoreTask } from "../controllers/taskController.js";
 
 
 const router = express.Router()
@@ -12,5 +12,19 @@ router.post("/activity/:id", protectRoute, postTaskActivity);
 router.get("/dashboard", protectRoute, dashboardStatistics);
 router.get("/", protectRoute, getTasks);
 router.get("/:id", protectRoute, getTask);
+
+router.put("/create-subtask/:id", protectRoute, isAdminRoute, createSubTask);
+router.put("/update/:id", protectRoute, isAdminRoute, updateTask);
+router.put("/change-stage/:id", protectRoute, updateTaskStage);
+router.put(
+  "/change-status/:taskId/:subTaskId",
+  protectRoute,
+  updateSubTaskStage
+);
+router.put("/:id", protectRoute, isAdminRoute, trashTask);
+
+// router.delete("/delete-restore/:id?",protectRoute,isAdminRoute, deleteRestoreTask
+router.delete("/delete-restore/:id",protectRoute,isAdminRoute, deleteRestoreTask
+);
 
 export default router;

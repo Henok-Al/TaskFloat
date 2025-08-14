@@ -25,15 +25,26 @@ export function dateFormatter(dateString) {
   return formattedDate;
 }
 
-export function getInitials(fullName) {
-  const names = fullName.split(" ");
+// export function getInitials(fullName) {
+//   const names = fullName.split(" ");
 
-  const initials = names.slice(0, 2).map((name) => name[0].toUpperCase());
+//   const initials = names.slice(0, 2).map((name) => name[0].toUpperCase());
 
-  const initialsStr = initials.join("");
+//   const initialsStr = initials.join("");
 
-  return initialsStr;
+//   return initialsStr;
+// }
+
+export function getInitials(name = '') {
+  if (typeof name !== 'string') return '';  // handle non-string input
+
+  return name
+    .split(' ')
+    .filter(Boolean) // removes empty strings
+    .map(n => (n[0] ? n[0].toUpperCase() : '')) // check if n[0] exists
+    .join('');
 }
+
 
 export const updateURL = ({ searchTerm, navigate, location }) => {
   const params = new URLSearchParams();

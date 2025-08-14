@@ -123,7 +123,7 @@ const Table = ({ tasks }) => {
 
       <td className='py-2 flex gap-2 md:gap-4 justify-end'>
         <Button
-          className='text-blue-600 hover:text-blue-500 sm:px-0 text-sm md:text-base'
+          className='text-[#1273A6] hover:text-[#256c92]     sm:px-0 text-sm md:text-base'
           label='Edit'
           type='button'
           onClick={() => editClickHandler(task)}

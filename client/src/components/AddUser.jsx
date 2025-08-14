@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import { useRegisterMutation } from "../redux/slices/api/authApiSlice";
 import { useUpdateUserMutation } from "../redux/slices/api/userApiSlice";
 import { setCredentials } from "../redux/slices/authSlice";
-import {Button, Loading,ModalWrapper, Textbox} from "./";
+import { Button, Loading, ModalWrapper, Textbox } from "./";
 
 const AddUser = ({ open, setOpen, userData }) => {
   let defaultValues = userData ?? {};
@@ -114,7 +114,7 @@ const AddUser = ({ open, setOpen, userData }) => {
             <div className='py-3 mt-4 sm:flex sm:flex-row-reverse'>
               <Button
                 type='submit'
-                className='bg-blue-600 px-8 text-sm font-semibold text-white hover:bg-blue-700  sm:w-auto'
+                className='bg-[#1273A6] hover px-8 text-sm font-semibold text-white  hover:bg-[#256c92]    sm:w-auto'
                 label='Submit'
               />
 

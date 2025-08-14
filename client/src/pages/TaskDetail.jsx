@@ -290,7 +290,7 @@ const TaskDetail = () => {
                       >
                         <div
                           className={
-                            "w-10 h-10 rounded-full text-white flex items-center justify-center text-sm -mr-1 bg-blue-600"
+                            "w-10 h-10 rounded-full text-white flex items-center justify-center text-sm -mr-1 bg-[#1273A6] "
                           }
                         >
                           <span className='text-center'>

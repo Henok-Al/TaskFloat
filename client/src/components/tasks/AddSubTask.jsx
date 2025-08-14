@@ -89,7 +89,7 @@ const AddSubTask = ({ open, setOpen, id }) => {
             <div className='py-3 mt-4 flex sm:flex-row-reverse gap-4'>
               <Button
                 type='submit'
-                className='bg-blue-600 text-sm font-semibold text-white hover:bg-blue-700 sm:ml-3 sm:w-auto'
+                className='bg-[#1273A6] text-sm font-semibold text-white hover:bg-[#256c92]   sm:ml-3 sm:w-auto'
                 label='Add Task'
               />
 

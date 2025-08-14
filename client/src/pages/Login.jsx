@@ -22,7 +22,6 @@ const Login = () => {
   const handleLogin = async (data) => {
     try {
       const res = await login(data).unwrap();
-
       dispatch(setCredentials(res));
       navigate("/");
     } catch (err) {
@@ -31,75 +30,77 @@ const Login = () => {
   };
 
   useEffect(() => {
-    user && navigate("/dashboard");
+    if (user) navigate("/dashboard");
   }, [user]);
 
   return (
-    <div className='w-full min-h-screen flex items-center justify-center flex-col lg:flex-row bg-[#f3f4f6] dark:bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#302943] via-slate-900 to-black'>
-      <div className='w-full md:w-auto flex gap-0 md:gap-40 flex-col md:flex-row items-center justify-center'>
-        <div className='h-full w-full lg:w-2/3 flex flex-col items-center justify-center'>
-          <div className='w-full md:max-w-lg 2xl:max-w-3xl flex flex-col items-center justify-center gap-5 md:gap-y-10 2xl:-mt-20'>
-            <span className='flex gap-1 py-1 px-3 border rounded-full text-sm md:text-base dark:border-gray-700 dark:text-[#1273A6]  border-gray-300 text-gray-600'>
-              Manage all your task in one place!
-            </span>
-            <p className='flex flex-col gap-0 md:gap-4 text-4xl md:text-6xl 2xl:text-7xl font-black text-center dark:text-gray-400 text-[#1273A6] '>
-              <span>Cloud-based</span>
-              <span>Task Manager</span>
-            </p>
+    <div className="w-full min-h-screen flex items-center justify-center bg-[#f3f4f6] dark:bg-gradient-to-b dark:from-[#302943] dark:via-slate-900 dark:to-black relative overflow-hidden">
+      
+      {/* Floating Circle */}
+      <div className="absolute -top-24 -left-24 w-64 h-64 bg-[#1273A6] rounded-full animate-bounce-slow opacity-20 z-0"></div>
+      <div className="absolute -bottom-24 -right-24 w-80 h-80 bg-[#1273A6] rounded-full animate-pulse-slow opacity-15 z-0"></div>
 
-            <div className='cell'>
-              <div className='circle rotate-in-up-left'></div>
-            </div>
-          </div>
+      <div className="flex flex-col lg:flex-row w-full max-w-6xl items-center justify-between px-5 relative z-10">
+        
+        {/* Left Info Section */}
+        <div className="lg:w-2/3 flex flex-col items-start justify-center gap-6 lg:gap-10 mb-10 lg:mb-0">
+          <span className="text-lg font-semibold text-[#1273A6]">
+            Simplify Your Work, Stay Productive
+          </span>
+          <h1 className="text-4xl md:text-6xl 2xl:text-7xl font-black text-gray-900 dark:text-gray-100 leading-tight">
+            Manage <span className="text-[#1273A6]">Tasks</span> Seamlessly
+          </h1>
+          <p className="text-gray-600 dark:text-gray-300 text-lg md:text-xl">
+            Organize, track, and complete your work efficiently with TaskFloat.
+          </p>
         </div>
 
-        <div className='w-full md:w-1/3 p-4 md:p-1 flex flex-col justify-center items-center'>
+        {/* Right Form Section */}
+        <div className="lg:w-1/3 w-full flex flex-col justify-center items-center">
           <form
             onSubmit={handleSubmit(handleLogin)}
-            className='form-container w-full md:w-[400px] flex flex-col gap-y-8 bg-white dark:bg-slate-900 px-10 pt-14 pb-14'
+            className="w-full md:w-[400px] flex flex-col gap-6 bg-white dark:bg-slate-900 px-10 pt-14 pb-14 rounded-2xl shadow-lg"
           >
             <div>
-              <p className='text-[#1273A6]  text-3xl font-bold text-center'>
-                Welcome back!
+              <p className="text-3xl font-bold text-[#1273A6] text-center">
+                Sign in to TaskFloat
               </p>
-              <p className='text-center text-base text-gray-700 dark:text-gray-500'>
-                Keep all your credetials safe!
+              <p className="text-center text-gray-700 dark:text-gray-400">
+                Enter your credentials to access your tasks.
               </p>
             </div>
-            <div className='flex flex-col gap-y-5'>
+
+            <div className="flex flex-col gap-5">
               <Textbox
-                placeholder='you@example.com'
-                type='email'
-                name='email'
-                label='Email Address'
-                className='w-full rounded-full'
-                register={register("email", {
-                  required: "Email Address is required!",
-                })}
+                placeholder="you@example.com"
+                type="email"
+                name="email"
+                label="Email Address"
+                className="w-full rounded-full"
+                register={register("email", { required: "Email Address is required!" })}
                 error={errors.email ? errors.email.message : ""}
               />
               <Textbox
-                placeholder='password'
-                type='password'
-                name='password'
-                label='Password'
-                className='w-full rounded-full'
-                register={register("password", {
-                  required: "Password is required!",
-                })}
-                error={errors.password ? errors.password?.message : ""}
+                placeholder="password"
+                type="password"
+                name="password"
+                label="Password"
+                className="w-full rounded-full"
+                register={register("password", { required: "Password is required!" })}
+                error={errors.password ? errors.password.message : ""}
               />
-              <span className='text-sm text-gray-600 hover:underline cursor-pointer'>
-                Forget Password?
+              <span className="text-sm text-gray-600 hover:underline cursor-pointer text-right">
+                Forgot Password?
               </span>
             </div>
+
             {isLoading ? (
               <Loading />
             ) : (
               <Button
-                type='submit'
-                label='Log in'
-                className='w-full h-10 bg-[#1273A6]  text-white rounded-full'
+                type="submit"
+                label="Log In"
+                className="w-full h-10 bg-[#1273A6] text-white rounded-full hover:bg-blue-700 transition-all duration-300"
               />
             )}
           </form>

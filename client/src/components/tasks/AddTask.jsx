@@ -236,7 +236,7 @@ const AddTask = ({ open, setOpen, task }) => {
           ) : (
             <div className="bg-gray-50 mt-6 mb-4 sm:flex sm:flex-row-reverse gap-4">
               <Button
-                label="Submit"
+                label="Submit"åå
                 type="submit"
                 className="bg-[#1273A6] px-8 text-sm font-semibold text-white hover:bg-[#256c92]  sm:w-auto"
               />
